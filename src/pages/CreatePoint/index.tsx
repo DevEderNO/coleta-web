@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from "react-leaflet";
 import { LeafletMouseEvent } from "leaflet";
@@ -45,6 +45,7 @@ const CreatePoint = () => {
     0,
     0,
   ]);
+  const history = useHistory();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -94,6 +95,7 @@ const CreatePoint = () => {
   }
 
   function handleMapClick(event: LeafletMouseEvent) {
+    console.log(event);
     setSelectedPosition([event.latlng.lat, event.latlng.lng]);
   }
 
@@ -135,7 +137,9 @@ const CreatePoint = () => {
 
     await api.post("/points", data);
 
-    alert('Ponto de coleta criado com sucesso!')
+    alert("Ponto de coleta criado com sucesso!");
+
+    history.push("/");
 
     event.preventDefault();
   }
